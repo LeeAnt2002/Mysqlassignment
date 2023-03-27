@@ -1,0 +1,51 @@
+My sql assignment
+Anthony Lee
+3/26/2023
+
+1.
+Select first_name, last_name
+From university.student
+;
+
+2.
+SELECT instructor_id, tenured
+FROM university.instructor
+WHERE tenured = '1'
+;
+
+3.
+SELECT student.first_name, student.last_name, instructor.first_name, instructor.last_name
+FROM instructor
+INNER JOIN student
+	ON  instructor.instructor_id = student.advisor_id;
+
+4.
+SELECT instructor.instructor_id, instructor.first_name, instructor.last_name
+FROM instructor
+LEFT JOIN student
+	ON  student.advisor_id = instructor.instructor_id
+    WHERE student.advisor_id IS NULL;
+
+5.
+SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+SELECT instructor.first_name, instructor.last_name, SUM(course.num_credits) AS 'Number of Credits'
+FROM instructor
+LEFT JOIN course
+	ON  course.instructor_id = instructor.instructor_id
+   Group by instructor.first_name, instructor.last_name
+    ;
+
+6.
+SELECT  course_code, course_name
+FROM course
+WHERE course_code LIKE '%3___';
+
+7.
+SELECT course.course_code AS 'Course Code' , instructor.first_name AS 'Instructor First Name' , instructor.last_name AS 'Instructor Last Name', course.num_credits AS 'Number of Credit Hours'
+FROM course
+INNER JOIN instructor 
+	ON instructor.instructor_id = course.instructor_id
+INNER JOIN student
+	ON student.advisor_id = instructor.instructor_id
+    WHERE student.student_id = 1;
+    ;
